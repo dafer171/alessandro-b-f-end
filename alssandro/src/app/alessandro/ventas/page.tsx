@@ -1,46 +1,26 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import ProductList from '@/app/ui/product/productList';
+import { fetchAllProducts } from '@/app/lib/data';
+import { Product } from '@/app/lib/definitions';
 
-interface Product {
-  name: string;
-  price: number;
-  imgSrc: string;
-}
-
-const products: Product[] = [
-  { name: 'Topping', price: 0.5, imgSrc: 'topping.png' },
-  { name: 'Bola extra', price: 1.5, imgSrc: 'bola_extra.png' },
-  { name: 'Cucurucho Mediano', price: 3.7, imgSrc: 'cucurucho_mediano.png' },
-  { name: 'Cucurucho Grande', price: 4.5, imgSrc: 'cucurucho_grande.png' },
-  { name: 'Cucurucho Solo', price: 0.5, imgSrc: 'cucurucho_solo.png' },
-  {
-    name: 'Cucurucho Chocolate',
-    price: 4.0,
-    imgSrc: 'cucurucho_chocolate_helado.png',
-  },
-  { name: 'Tarrina Pequeña', price: 3.0, imgSrc: 'Tarrina_pequeña.png' },
-  { name: 'Tarrina Mediana', price: 4.0, imgSrc: 'Tarrina_medina.png' },
-  { name: 'Tarrina Grande', price: 5.0, imgSrc: 'Tarrina_grande.png' },
-  { name: 'Crepes 1', price: 4.5, imgSrc: 'crepe_1.png' },
-  { name: 'Crepes 2', price: 5.0, imgSrc: 'crepe_2.png' },
-  { name: 'Crepes 3', price: 5.5, imgSrc: 'crepe_3.png' },
-  { name: 'Waffles Bubble 1', price: 4.5, imgSrc: 'waffes_buble_2.jpg' },
-  { name: 'Waffles Bubble 2', price: 5.0, imgSrc: 'waffes_buble_3.jpg' },
-  { name: 'Waffles Bubble 3', price: 5.5, imgSrc: 'waffes_buble_4.jpg' },
-  { name: 'Gofres 1', price: 4.0, imgSrc: 'gofre_2.png' },
-  { name: 'Gofres 2', price: 4.5, imgSrc: 'gofre_3.png' },
-  { name: 'Gofres 3', price: 5.0, imgSrc: 'gofre_4.png' },
-  { name: 'Smoothies', price: 4.5, imgSrc: 'smoothies.png' },
-  { name: 'Batido Helado', price: 4.5, imgSrc: 'batido_helado.png' },
-  { name: 'Helado Litro', price: 17.0, imgSrc: 'helado_litro.png' },
-  { name: 'Helado Medio Litro', price: 10.0, imgSrc: 'Helado_medio_litro.png' },
-  { name: 'Agua', price: 1.2, imgSrc: 'botella-de-agua.png' },
-  { name: 'Refresco', price: 1.8, imgSrc: 'refresco.png' },
-];
-
-function App() {
+export default function Page() {
   const [order, setOrder] = useState<Product[]>([]);
   const [total, setTotal] = useState<number>(0);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const productsData = await fetchAllProducts();
+        setProducts(productsData);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    }
+
+    loadProducts();
+  }, []);
 
   const addProduct = (product: Product) => {
     setOrder([...order, product]);
@@ -69,7 +49,7 @@ function App() {
         <ul id="pedido-list" className="list-disc pl-5">
           {order.map((product, index) => (
             <li key={index}>
-              {product.name} - {product.price} €
+              {product.pname} - {product.price} €
             </li>
           ))}
         </ul>
@@ -90,25 +70,7 @@ function App() {
         </button>
       </div>
       <h3 className="text-xl font-semibold mb-4">Productos</h3>
-      <div
-        id="productos"
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-      >
-        {products.map((product, index) => (
-          <div
-            key={index}
-            className="producto border p-4 rounded cursor-pointer"
-            onClick={() => addProduct(product)}
-          >
-            <img src={product.imgSrc} alt={product.name} className="mb-2" />
-            <p>
-              {product.name} - {product.price.toFixed(2)} €
-            </p>
-          </div>
-        ))}
-      </div>
+      <ProductList products={products} onAddProduct={addProduct} />
     </div>
   );
 }
-
-export default App;
