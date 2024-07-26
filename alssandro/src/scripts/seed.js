@@ -1,6 +1,4 @@
-require('dotenv').config();
 const { Client } = require('pg');
-
 async function seedProducts(client) {
   const products = [
     {
@@ -174,7 +172,14 @@ async function seedSaleItems(client) {
 }
 
 async function main() {
-  const client = new Client();
+  const client = new Client({
+    user: process.env.PGUSER,
+    host: process.env.PGHOST,
+    database: process.env.PGDATABASE,
+    password: process.env.PGPASSWORD,
+    port: process.env.PGPORT,
+  });
+
   await client.connect();
 
   await seedProducts(client);
