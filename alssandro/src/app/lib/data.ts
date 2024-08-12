@@ -9,7 +9,7 @@ export async function fetchAllProducts() {
   try {
     const data =
       await sql<Product>`SELECT id, name, price, image_url FROM products ORDER BY id;`;
-    console.log(data.rows);
+    console.log(data);
     return data.rows;
   } catch (error) {
     console.error('Database Error:', error);
