@@ -1,5 +1,5 @@
 const { db } = require('@vercel/postgres');
-require('dotenv').config();
+//require('dotenv').config();
 
 import { sql } from '@vercel/postgres';
 import { Product } from './definitions';
