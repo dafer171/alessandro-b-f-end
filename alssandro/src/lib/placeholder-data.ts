@@ -149,7 +149,13 @@ const products = [
     id: '00000000-0000-0000-0000-000000000001',
     name: 'Topping',
     price: '0.5',
-    image_url: '../../public/images/topping.png',
+    image_url: '/images/topping.png',
+  },
+  {
+    id: '00000000-0000-0000-0000-000000000002',
+    name: 'Bola extra',
+    price: '1.5',
+    image_url: '/images/bola_extra.png',
   },
 ];
 

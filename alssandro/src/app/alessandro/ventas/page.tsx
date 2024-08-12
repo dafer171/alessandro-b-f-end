@@ -49,7 +49,7 @@ export default function Page() {
         <ul id="pedido-list" className="list-disc pl-5">
           {order.map((product, index) => (
             <li key={index}>
-              {product.pname} - {product.price} €
+              {product.name} - {product.price} €
             </li>
           ))}
         </ul>

@@ -21,12 +21,13 @@ export default function ProductList({
           onClick={() => onAddProduct(product)}
         >
           <img
-            src={`/${product.pname.replace(' ', '_')}.png`}
-            alt={product.pname}
+            //src={`/${product.name.replace(' ', '_')}.png`}
+            src={product.image_url}
+            alt={product.name}
             className="mb-2"
           />
           <p>
-            {product.pname} - {product.price.toFixed(2)} €
+            {product.name} - {product.price.toFixed(2)} €
           </p>
         </div>
       ))}
