@@ -144,9 +144,19 @@ const revenue = [
   { month: 'Dec', revenue: 4800 },
 ];
 
+const products = [
+  {
+    id: '00000000-0000-0000-0000-000000000001',
+    name: 'Topping',
+    price: '0.5',
+    image_url: '../../public/images/topping.png',
+  },
+];
+
 module.exports = {
   users,
   customers,
   invoices,
   revenue,
+  products,
 };

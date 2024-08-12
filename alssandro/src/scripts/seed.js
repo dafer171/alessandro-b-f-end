@@ -5,6 +5,7 @@ const {
   customers,
   revenue,
   users,
+  products,
 } = require('../lib/placeholder-data.ts');
 const bcrypt = require('bcrypt');
 
@@ -161,6 +162,43 @@ async function seedRevenue(client) {
   }
 }
 
+async function seedProducts(client) {
+  try {
+    // Create the "products" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS products (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        price FLOAT NOT NULL,
+        image_url VARCHAR(255) NOT NULL
+      );
+    `;
+
+    console.log(`Created "products" table`);
+
+    // Insert data into the "products" table
+    const insertedProducts = await Promise.all(
+      products.map(
+        (products) => client.sql`
+        INSERT INTO products (id, name, price, image_url)
+        VALUES (${products.id}, ${products.name}, ${products.price}, ${products.image_url})
+        ON CONFLICT (id) DO NOTHING;
+      `
+      )
+    );
+
+    console.log(`Seeded ${insertedProducts.length} products`);
+
+    return {
+      createTable,
+      products: insertedProducts,
+    };
+  } catch (error) {
+    console.error('Error seeding products:', error);
+    throw error;
+  }
+}
+
 async function main() {
   const client = await db.connect();
 
@@ -168,6 +206,7 @@ async function main() {
   await seedCustomers(client);
   await seedInvoices(client);
   await seedRevenue(client);
+  await seedProducts(client);
 
   await client.end();
 }
