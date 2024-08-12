@@ -20,12 +20,7 @@ export default function ProductList({
           className="producto border p-4 rounded cursor-pointer"
           onClick={() => onAddProduct(product)}
         >
-          <img
-            //src={`/${product.name.replace(' ', '_')}.png`}
-            src={product.image_url}
-            alt={product.name}
-            className="mb-2"
-          />
+          <img src={product.image_url} alt={product.name} className="mb-2" />
           <p>
             {product.name} - {product.price.toFixed(2)} €
           </p>
