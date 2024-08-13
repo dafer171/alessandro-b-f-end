@@ -1,4 +1,6 @@
-//require('dotenv').config();
+require('dotenv').config({
+  path: 'C:\\Users\\daf_1\\Desktop\\Alejandro\\web\\NewWeb\\alessandro-b-f-end\\alssandro\\.env',
+});
 const { db } = require('@vercel/postgres');
 const {
   invoices,

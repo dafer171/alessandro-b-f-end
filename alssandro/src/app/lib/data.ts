@@ -1,5 +1,22 @@
-const { db } = require('@vercel/postgres');
+const dotenv = require('dotenv');
+const path = require('path');
+
+// Cargar .env
+const result = dotenv.config();
+
+// Verificar si hubo algún error al cargar .env
+if (result.error) {
+  console.error('Error cargando el archivo .env:', result.error);
+} else {
+  console.log(
+    'Archivo .env cargado desde:',
+    path.resolve(process.cwd(), '.env')
+  );
+}
+
 //require('dotenv').config();
+
+const { db } = require('@vercel/postgres');
 
 import { sql } from '@vercel/postgres';
 import { Product } from './definitions';
